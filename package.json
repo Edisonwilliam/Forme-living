@@ -1,0 +1,15 @@
+{
+  "name": "forme-living-platform",
+  "version": "1.0.0",
+  "private": true,
+  "description": "FORME Living — Premium Architectural Furniture & Interior Living Platform",
+  "scripts": {
+    "dev:client": "npm run dev --prefix client",
+    "dev:server": "npm run dev --prefix server",
+    "build:client": "npm run build --prefix client",
+    "build:server": "npm run build --prefix server"
+  },
+  "keywords": ["furniture", "e-commerce", "react", "express", "mongodb", "tailwind", "portfolio"],
+  "author": "FORME Living Engineering Team",
+  "license": "ISC"
+}

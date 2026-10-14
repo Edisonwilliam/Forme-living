@@ -1,0 +1,65 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --color-ivory: #F7F5F0;
+  --color-cream: #EDE8DF;
+  --color-charcoal: #242522;
+  --color-olive: #45483B;
+  --color-taupe: #B6AA9A;
+  --color-terracotta: #B66E4B;
+  --color-white: #FFFFFF;
+}
+
+@layer base {
+  html {
+    scroll-behavior: smooth;
+    font-family: 'Plus Jakarta Sans', Inter, system-ui, sans-serif;
+  }
+
+  body {
+    background-color: #F7F5F0;
+    color: #242522;
+    overflow-x: hidden;
+  }
+
+  h1, h2, h3, h4, .font-editorial {
+    font-family: 'Cormorant Garamond', 'DM Serif Display', Georgia, serif;
+    letter-spacing: -0.01em;
+  }
+}
+
+/* Custom Scrollbar */
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+
+::-webkit-scrollbar-track {
+  background: #EDE8DF;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #B6AA9A;
+  border-radius: 3px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #45483B;
+}
+
+/* Accessible reduced motion support */
+@media (prefers-reduced-motion: reduce) {
+  *, ::before, ::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+
+/* Utility animations and editorial transitions */
+.editorial-mask {
+  mask-image: linear-gradient(to bottom, black 85%, transparent 100%);
+}
