@@ -24,12 +24,23 @@ export function attachTokenCookie(res: import('express').Response, token: string
   res.cookie('forme_token', token, {
     httpOnly: true,
     secure: isProduction,
-    sameSite: isProduction ? 'strict' : 'lax',
+    // 'none' is required for cross-site cookies (Vercel frontend → Render backend).
+    // 'none' MUST be paired with secure:true, which we enforce above.
+    // In dev we use 'lax' so localhost works without HTTPS.
+    sameSite: isProduction ? 'none' : 'lax',
     maxAge: 7 * 24 * 60 * 60 * 1000, // 7 days
     path: '/',
   });
 }
 
 export function clearTokenCookie(res: import('express').Response): void {
-  res.clearCookie('forme_token', { httpOnly: true, path: '/' });
+  const isProduction = env.NODE_ENV === 'production';
+  // Must pass the same SameSite/Secure flags used when setting the cookie,
+  // otherwise browsers silently ignore the clearCookie instruction.
+  res.clearCookie('forme_token', {
+    httpOnly: true,
+    secure: isProduction,
+    sameSite: isProduction ? 'none' : 'lax',
+    path: '/',
+  });
 }

@@ -15,17 +15,40 @@ import paymentsRouter from './routes/payments';
 
 const app: Application = express();
 
-// Security and utility middleware
-app.use(helmet());
+// ── CORS ──────────────────────────────────────────────────────────────────────
+const ALLOWED_ORIGINS = [
+  env.CLIENT_URL,                   // primary production URL (set via env var)
+  'http://localhost:5173',
+  'http://127.0.0.1:5173',
+  'http://localhost:4173',
+  'http://127.0.0.1:4173',
+];
+
+function isAllowedOrigin(origin: string | undefined): boolean {
+  if (!origin) return true; // allow server-to-server (no Origin header)
+  if (ALLOWED_ORIGINS.includes(origin)) return true;
+  // Allow any Vercel preview/branch deployment automatically
+  if (/^https:\/\/[\w-]+-[\w-]+\.vercel\.app$/.test(origin)) return true;
+  if (/^https:\/\/[\w-]+\.vercel\.app$/.test(origin)) return true;
+  return false;
+}
+
+// Security middleware — helmet with relaxed COOP for Google OAuth popup
+app.use(
+  helmet({
+    crossOriginOpenerPolicy: { policy: 'same-origin-allow-popups' },
+  })
+);
+
 app.use(
   cors({
-    origin: [
-      env.CLIENT_URL,
-      'http://localhost:5173',
-      'http://127.0.0.1:5173',
-      'http://localhost:4173',
-      'http://127.0.0.1:4173',
-    ],
+    origin: (origin, callback) => {
+      if (isAllowedOrigin(origin)) {
+        callback(null, true);
+      } else {
+        callback(new Error(`CORS: origin "${origin}" not allowed`));
+      }
+    },
     credentials: true,
     methods: ['GET', 'POST', 'PUT', 'PATCH', 'DELETE', 'OPTIONS'],
     allowedHeaders: ['Content-Type', 'Authorization', 'X-Requested-With'],
