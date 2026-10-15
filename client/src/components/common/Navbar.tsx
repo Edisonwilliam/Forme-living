@@ -77,7 +77,7 @@ export const Navbar: React.FC<NavbarProps> = ({ onOpenSearch, onOpenMobileMenu }
         </nav>
 
         {/* Right: User Utilities */}
-        <div className="flex items-center space-x-2 sm:space-x-4 text-forme-charcoal">
+        <div className="flex items-center space-x-1 sm:space-x-4 text-forme-charcoal">
           {/* Search Trigger */}
           <button
             onClick={onOpenSearch}
@@ -100,14 +100,15 @@ export const Navbar: React.FC<NavbarProps> = ({ onOpenSearch, onOpenMobileMenu }
             </Link>
           )}
 
-          {/* Account: show user initial when logged in */}
+          {/* Account: show user initial when logged in or User icon for Sign In (visible on all screens including mobile) */}
           <Link
             to="/account"
-            className="p-2 hover:text-forme-terracotta transition-colors hidden sm:flex items-center"
+            className="p-2 hover:text-forme-terracotta transition-colors flex items-center"
             aria-label={isAuthenticated ? `Account — ${user?.name}` : 'Sign in'}
+            title={isAuthenticated ? `My Account (${user?.name})` : 'Sign in'}
           >
             {isAuthenticated && user ? (
-              <span className="w-7 h-7 rounded-full bg-forme-terracotta text-white text-xs font-semibold flex items-center justify-center uppercase select-none">
+              <span className="w-6 h-6 sm:w-7 sm:h-7 rounded-full bg-forme-terracotta text-white text-[11px] sm:text-xs font-semibold flex items-center justify-center uppercase select-none shadow-xs">
                 {user.name.charAt(0)}
               </span>
             ) : (
