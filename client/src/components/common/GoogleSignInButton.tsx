@@ -138,13 +138,15 @@ export const GoogleSignInButton: React.FC<GoogleSignInButtonProps> = ({
 
       // renderButton is safe to call repeatedly — it just repaints the iframe.
       containerRef.current.innerHTML = '';
+      const availableWidth = containerRef.current.parentElement?.clientWidth || 380;
+      const buttonWidth = Math.max(200, Math.min(380, Math.floor(availableWidth)));
       window.google.accounts.id.renderButton(containerRef.current, {
         type: 'standard',
         theme: 'outline',
         size: 'large',
         text: buttonText,
         shape: 'rectangular',
-        width: 380,
+        width: buttonWidth,
         logo_alignment: 'center',
       });
       return true;
